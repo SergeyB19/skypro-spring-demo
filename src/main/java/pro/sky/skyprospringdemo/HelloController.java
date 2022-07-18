@@ -12,7 +12,6 @@ public class HelloController {
 
         this.helloService = helloService;
     }
-
     @GetMapping
     public String hello() {
         return helloService.hello();
