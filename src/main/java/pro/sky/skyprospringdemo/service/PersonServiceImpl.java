@@ -4,12 +4,11 @@ import org.springframework.stereotype.Service;
 import pro.sky.skyprospringdemo.domain.Driver;
 import pro.sky.skyprospringdemo.domain.Person;
 import pro.sky.skyprospringdemo.domain.TruckDriver;
-import pro.sky.skyprospringdemo.exceptions.BadPersonNumberExeption;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -42,11 +41,12 @@ public class PersonServiceImpl implements PersonService {
                     4,
                     "2345")
     ));
-    String[] proffessions = {
+    String[] professions = {
             "безработный",
             "водитель",
             "плотник",
-            "столяр"
+            "столяр",
+            "актер"
     };
 
     //    @Override
@@ -79,6 +79,17 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public void addProfession(String passport, Integer profession) {
+        final Person person = persons.get(passport);
+        if (person == null) {
+            throw new RuntimeException("Человек с таким номером паспорта не найден");
+        }
+//    if (!person.getProfessionNumbers().contains(profession)) {
+        person.getProfessionNumbers().add(profession);
+    }
+//    }
+
+    @Override
     public String getPersonByPassport(String passport) {
 //        for (Person person : persons.values()) {
         final Person person = persons.get(passport);
@@ -90,9 +101,18 @@ public class PersonServiceImpl implements PersonService {
                 + person.getName() + " "
                 + person.getSurname() + " "
                 + person.getPassport() + " "
-                + proffessions[person.getProfessionNumber()];
+//                + proffessions[person.getProfessionNumbers()];
+                + getProfessionNames(person.getProfessionNumbers());
         return personDescription;
 //            }
 //        }
+    }
+
+    private String getProfessionNames(Set<Integer> professionNumbers) {
+        String result = "";
+        for (Integer professionNumber : professionNumbers) {
+            result = result + " " + professions[professionNumber];
+        }
+        return result;
     }
 }

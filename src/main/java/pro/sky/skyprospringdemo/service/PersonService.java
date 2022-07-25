@@ -8,5 +8,7 @@ public interface PersonService {
 
     void addPerson(Person person);
 
+    void addProfession(String passport, Integer profession);
+
     String getPersonByPassport(String passport);
 }
