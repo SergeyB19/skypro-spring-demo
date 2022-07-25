@@ -1,4 +1,4 @@
-package pro.sky.skyprospringdemo.example;
+package pro.sky.skyprospringdemo.exceptions;
 
 public class ArrayIndexOutOfBoundsException
 {
