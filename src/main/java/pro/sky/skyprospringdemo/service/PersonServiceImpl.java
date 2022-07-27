@@ -5,10 +5,7 @@ import pro.sky.skyprospringdemo.domain.Driver;
 import pro.sky.skyprospringdemo.domain.Person;
 import pro.sky.skyprospringdemo.domain.TruckDriver;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -48,6 +45,34 @@ public class PersonServiceImpl implements PersonService {
             "столяр",
             "актер"
     };
+
+    Map<String, Integer> professionsCodes = Map.of(
+            "безработный", 0,
+            "водитель", 1,
+            "плотник", 2,
+            "столяр", 3,
+            "актер",4
+    );
+
+    public List<Person> getPersonsByProfession(Integer professionNumber) {
+        List<Person> result = new ArrayList<>();
+        for (Person person : persons.values()) {
+            if (person.getProfessionNumbers().contains(professionNumber)) {
+                result.add(person);
+            }
+        }
+        return result;
+    }
+@Override
+    public List<Person> getPersonsByProfessions(List<Integer> professionNumbers) {
+        List<Person> result = new ArrayList<>();
+        for (Person person : persons.values()) {
+            if (person.getProfessionNumbers().containsAll(professionNumbers)) {
+                result.add(person);
+            }
+        }
+        return result;
+    }
 
     //    @Override
 //    public String getPerson(Integer number) throws BadPersonNumberExeption {

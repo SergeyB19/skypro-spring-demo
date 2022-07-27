@@ -7,6 +7,8 @@ import pro.sky.skyprospringdemo.domain.Person;
 import pro.sky.skyprospringdemo.exceptions.BadPersonNumberExeption;
 import pro.sky.skyprospringdemo.service.PersonService;
 
+import java.util.List;
+
 @RestController
 public class PersonController {
     private final PersonService personService;
@@ -62,5 +64,9 @@ public class PersonController {
         Person person = new Person(name,surname,passport,profession);
         personService.addPerson(person);
         return "Person added";
+    }
+
+    public void getByProfession() {
+        personService.getPersonsByProfessions(List.of(1, 3));
     }
 }

@@ -3,8 +3,12 @@ package pro.sky.skyprospringdemo.service;
 import pro.sky.skyprospringdemo.domain.Person;
 import pro.sky.skyprospringdemo.exceptions.BadPersonNumberExeption;
 
+import java.util.List;
+
 public interface PersonService {
 //    public String getPerson(Integer number) throws BadPersonNumberExeption;
+
+    List<Person> getPersonsByProfessions(List<Integer> professionNumbers);
 
     void addPerson(Person person);
 
