@@ -7,7 +7,10 @@ import pro.sky.skyprospringdemo.domain.Person;
 import pro.sky.skyprospringdemo.exceptions.BadPersonNumberExeption;
 import pro.sky.skyprospringdemo.service.PersonService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class PersonController {
@@ -50,23 +53,48 @@ public class PersonController {
     public String getPersonInfo(@RequestParam("passport") String passport) {
         return personService.getPersonByPassport(passport);
     }
+
     @GetMapping(path = "/person/profession/add")
     public String addProfession(@RequestParam("passport") String passport,
-                              @RequestParam("profession") Integer profession) {
-        personService.addProfession(passport,profession);
+                                @RequestParam("profession") Integer profession) {
+        personService.addProfession(passport, profession);
         return "профессия успешно добавлена";
     }
+
     @GetMapping(path = "/person/add")
     public String addPerson(@RequestParam("name") String name,
-                           @RequestParam("surname") String surname,
-                           @RequestParam("passport") String passport,
-                           @RequestParam("profession") Integer profession) {
-        Person person = new Person(name,surname,passport,profession);
+                            @RequestParam("surname") String surname,
+                            @RequestParam("passport") String passport,
+                            @RequestParam("profession") Integer profession) {
+        Person person = new Person(name, surname, passport, profession);
         personService.addPerson(person);
         return "Person added";
     }
 
-    public void getByProfession() {
-        personService.getPersonsByProfessions(List.of(1, 3));
+    @GetMapping(path = "/persons/by-profession")
+    public String getByProfession(@RequestParam("profession") int profession) {
+        final List<Person> personsByProfession = personService.getPersonsByProfession(profession);
+//        final List<String> passports = new ArrayList<>();
+//        String forPassport = null;
+//        for (final Person person : personsByProfession) {
+//            final String passport = person.getPassport();
+//            if (passport.startsWith("4")) {
+//                forPassport = "~" + person.getPassport() + "~";
+//            }
+////            passports.add("~" + person.getPassport() + "~");
+//        }
+//        if (forPassport == null) {
+//            throw new RuntimeException("Person not found");
+//        }
+
+        final Optional <String> passport = personsByProfession.stream()
+                .map(e -> e.getPassport())
+                .filter(p -> p.startsWith("5"))
+                .map(p -> "~" + p + "~")
+//                .collect(Collectors.toList());
+                .findAny()
+                ;
+
+        return passport.orElseThrow(() -> new RuntimeException("Person not found"));
     }
 }

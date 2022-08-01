@@ -8,6 +8,8 @@ import java.util.List;
 public interface PersonService {
 //    public String getPerson(Integer number) throws BadPersonNumberExeption;
 
+    List<Person> getPersonsByProfession(Integer professionNumber);
+
     List<Person> getPersonsByProfessions(List<Integer> professionNumbers);
 
     void addPerson(Person person);
